@@ -1,0 +1,209 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+   
+<style>
+ 
+ *{
+margin:0;
+padding:0;
+}
+/* body{
+background-color: #222;
+color:#fff;
+font-size: system-ui;
+display: flex;
+justify-content: center;
+align-items: center;
+flex-direction: column;
+max-width: 80%;
+margin: auto;
+} */
+
+.stock{
+
+width: 100%;
+margin: auto;
+}
+.head{
+text-align: center;
+text-transform: uppercase;
+margin: 40px , 0;
+padding: 30px;
+}
+input{
+width: 100%;
+/* height: 30px; */
+outline: none;
+border: none;
+background-color: #ffffff;
+border: 1px solid  rgb(20, 20, 63);
+margin: 4px 0;
+border-radius: 4px;
+padding: 10px 4px;
+
+color: #3d3939;
+}
+textarea{
+    width: 100%;
+    /* height: 30px; */
+    outline: none;
+    border: none;
+    margin: 4px 0;
+    border-radius: 4px;
+    padding: 10px 4px;
+    background-color: #ffffff;
+    color: #3d3939;
+    border: 1px solid  rgb(20, 20, 63);
+
+
+}
+/* had focus fach ktochi l input ktbdal lon dyalha*/
+/* input:focus{
+background: #3a3939;
+transform: scale(1.1);
+} */
+#prix.input{
+
+display: flex;
+justify-content: space-between;
+}
+#total{
+background-color: red;
+padding: 4px 2px;
+border-radius: 4px;
+
+}
+#total::before{
+content: 'Total: ';
+}
+.btn{
+width: 100%;
+height: 30px;
+border: none;
+border-radius: 10px;
+cursor: pointer;
+background: #551055;
+transition: 0.5s;
+color: #fff;
+}
+.btn:hover{
+background: #c944ae;
+letter-spacing: 2px;
+}
+.btnsearch{
+display: flex;
+justify-content: space-between;
+
+}
+.btnsearch button{
+width: 45%;
+}
+table{
+width: 100%;
+text-align: center;
+margin: 10px 0;
+}
+table th{
+text-transform: uppercase;
+}
+th,td{
+padding: 5px;
+}
+#deleteAll{
+margin: 20px 0;
+}
+#telecharger{
+margin: 20px 4px;
+width: auto;
+height: 30px;
+border-radius: 10px;
+text-align: center;
+padding-top: 5px;
+cursor: pointer;
+background-color: red;
+display: none;
+
+}
+a{
+color: #fff;
+text-decoration: none;
+} 
+a:hover{
+color: var(#000);
+}
+   
+</style>
+  <div class="container">
+   <div class="stock">
+      
+       <div class="head"> <h3>créer un produit</h3>
+       </div>
+      
+       <form  method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+       <div class="imputs">
+       
+         <input placeholder="Titre"  required name="title" type="text" id="title">
+          <div id="prix">
+            <input onkeyup="getTotal()"   type="number" name="price" id="price"  placeholder="prix">
+            <input type="number" name="remise" id="remise"  placeholder="Taux de Promotion Exemple 20%" >
+            <input onkeyup="getTotal()"   type="number" name="qantite" id="qantite"  placeholder="Quantities">
+            <input onkeyup="getTotal()"   type="number" name="total" id="total"  placeholder="total">
+           </div>
+            <div class="form-group">
+                <label for="exampleFormControlFile1">Image</label>
+                <input type="file" name="image" class="form-control-file" id="exampleFormControlFile1">
+              </div>
+          </div>
+          
+          <input type="text"  placeholder="category" id="category" name="category"><br>
+
+         <textarea id="description" name="description" value="{{product.descreption}}" rows="4" cols="50" placeholder="Descreption"></textarea><br><br>
+
+         <!-- <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="True" id="flexCheckDefault" name="promo">
+            <label class="form-check-label" for="flexCheckDefault">
+                remise
+            </label>
+          </div> -->
+          <br>
+          <button class="btn" id="submit">Create</button>
+        <br><br><br>
+       
+    </form>
+   </div>
+</div>
+   <script>
+         $(document).ready(function() {
+        $('#submit').click(function(event) {
+            event.preventDefault(); // prevent form submission
+            // Add logic to send form data to server for product creation
+            // You can use AJAX to send the form data asynchronously
+        });
+        $('#flexCheckDefault').change(function() {
+            getTotal();
+        });
+    });
+
+    function getTotal() {
+        let price = parseFloat($('#price').val()) || 0;
+        // let newPrice = parseFloat($('#new_price').val()) || price;
+        let quantity = parseFloat($('#qantite').val()) || 0;
+        // ($('#flexCheckDefault').is(':checked')) ? newPrice * quantity :
+        let total =  price * quantity;
+        $('#total').val(total);
+        
+
+
+    }
+   
+      
+   </script>
+
+{% endblock content %}

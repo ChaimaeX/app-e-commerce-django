@@ -1,0 +1,945 @@
+{% extends "index.html" %}
+{% load static %}
+{% block content %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<!-- <link rel="stylesheet" href="{% static 'css/style3.css'%}"> -->
+<style>
+  /* General Styles */
+
+#product1 {
+  text-align: center;
+}
+
+#product1 .pro-container {
+  display: flex;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  box-shadow: 10px 10px 34px rgb(0, 0, 0, 0.03);
+  border-radius: 20px;
+  cursor: pointer;
+  border: 1px solid rgb(0, 0, 0, 0.03) ;
+  margin: 15px 0;
+  position: relative;
+  padding: 10px 12px;
+}
+
+#product1 .pro {
+  flex: 0 0 auto;
+  width: 20%;
+  min-width: 200px;
+  margin: 0 10px;
+  padding: 10px 12px;
+  border-radius: 20px;
+  box-shadow: 10px 10px 34px rgb(0, 0, 0, 0.03);
+  border: 1px solid rgb(0, 0, 0, 0.03);
+  position: relative;
+}
+
+#product1 .pro:hover {
+  box-shadow: 10px 10px 34px rgb(0, 0, 0, 0.1);
+  transition: 0.2s ease;
+}
+
+#product1 .pro img {
+  width: 50%;
+  
+  border-radius: 20px;
+}
+
+#product1 .pro .des {
+  padding: 10px 0;
+  text-align: start;
+}
+
+#product1 .pro .des h5 {
+  padding-top: 5px;
+  color: rgb(27, 0, 0);
+  font-size: 14px;
+}
+
+#product1 .pro .des i {
+  font-size: 12px;
+  color: rgb(255, 204, 0);
+}
+
+#product1 .pro .des span {
+  color: #020014;
+  font-size: 12px;
+}
+
+#product1 .pro .des h4 {
+  font-size: 15px;
+  padding-top: 4px;
+  font-weight: 700;
+  color: rgb(46, 0, 0);
+}
+
+#product1 .pro .cart {
+  width: 40px;
+  height: 40px;
+  line-height: 40px;
+  border-radius: 50px;
+  background-color: #e8f6ea;
+  color: #088178;
+  border: 1px solid #cce7d0;
+  position: absolute;
+  bottom: 20px;
+  right: 10px;
+}
+
+/* Slider Wrapper Styles */
+.slider-wrapper {
+  position: relative;
+}
+
+.slider-wrapper .slide-button {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  outline: none;
+  border: none;
+  width: 40px;
+  height: 40px;
+  background: #000;
+  color: #fff;
+  border-radius: 50%;
+  cursor: pointer;
+  z-index: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.slider-wrapper .slide-button#prev-slide {
+  left: 0;
+}
+
+slider-wrapper .slide-button#next-slide {
+  right: 0;
+}
+
+.slider-wrapper .slider-scrollbar {
+  position: absolute;
+  bottom: 10px;
+  left: 0;
+  right: 0;
+  height: 5px;
+ 
+}
+
+.slider-wrapper .scrollbar-thumb {
+  height: 100%;
+  background: #000;
+  width: 20%;
+  cursor: pointer;
+}
+
+.cart-item{
+  position: relative;
+}
+.cart-item span{
+  display:flex ;
+  width: 20px;
+  height: 20px;
+  background-color: red;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  right: -20%;
+}
+
+
+
+
+
+
+
+/* New Feature Box Styles */
+#feature {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+#feature .fe-box {
+  width: 180px;
+  text-align: center;
+  padding: 25px 15px;
+  box-shadow: 20px 20px 34px rgba(69, 69, 69, 0.03);
+  border: 1px solid #cce7d0;
+  margin: 15px 0;
+  border-radius: 4px;
+}
+
+#feature .fe-box:hover {
+  box-shadow: 10px 10px 54px rgba(70, 62, 221, 0.1);
+}
+
+#feature .fe-box h6 {
+  display: inline-block;
+  padding: 9px 8px 6px 8px;
+  line-height: 1;
+  border-radius: 4px;
+  color: blue;
+  background-color: #ddf8fd;
+}
+
+#feature .fe-box img {
+  height: 100%;
+  width:100%;
+}
+
+/*-----------------------------------*\
+  #BLOG
+\*-----------------------------------*/
+
+.h1, .h2, .h3, .h2-large {
+  color: white;
+  font-weight: inherit;
+  line-height: 1.3;
+  font-size: 33PX;
+
+}
+.img-holder {
+  aspect-ratio: var(--width) / var(--height);
+  background-color: var(--light-gray);
+}
+.hover\:shine {
+  overflow: hidden;
+}
+.has-before::before,
+.has-after::after {
+  content: "";
+  position: absolute;
+}
+.blog {
+  padding-block-end: calc(var(--section-padding) * 2);}
+.section {
+    padding-block: var(--section-padding);
+}
+.flex-list {
+  /* display: flex; */
+  /* flex-wrap: wrap; */
+  justify-content: center;
+  /* align-items: center; */
+  /* gap: 30px; */
+}
+.flex-list .flex-item {
+  margin: auto 29px;
+}
+  
+
+ol , ul{
+  padding-left: 0rem ;
+}
+.blog { padding-block-end: calc(var(--section-padding) * 2); }
+
+.blog .section-title {
+  text-align: center;
+  margin-block-end: 40px;
+}
+
+.blog-card .card-banner img { transition: var(--transition-2); }
+
+.blog-card:is(:hover, :focus-within) .card-banner img { transform: scale(1.2); }
+
+.blog-card .card-title {
+  text-align: center;
+  margin-block: 0px 20px;
+  transition: var(--transition-1);
+  font-size: 27px;
+}
+
+.blog-card .card-title:is(:hover, :focus) { color: var(--hoockers-green); }
+
+.blog-card .btn-link { justify-content: center; }
+
+.img{
+    width: 30px;
+    height: auto;
+}
+/* .img-cover {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+} */
+
+.img-cover {
+  width: 396px;
+  height: 254px;
+  object-fit: cover;
+}
+.blog-card .card-banner img {
+  transition: var(--transition-2);
+}
+a, img, span, input, button, ion-icon {
+  display: block;
+}
+*, ::before, ::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+li { list-style: none; }
+
+a,
+img,
+span,
+input,
+button,
+ion-icon { display: block; }
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+img { height: auto; }
+
+input,
+button {
+  background: none;
+  border: none;
+  font: inherit;
+}
+#successMessage {
+       
+       display: none; /* Masquer le message au début */
+       justify-content: center;
+       position: fixed; /* Position fixe */
+       top: 20%; /* Position verticale au milieu */
+       left: 50%; /* Position horizontale au milieu */
+       transform: translate(-50%);
+       width: 400px;
+       height: 30px;
+       text-align: center;
+       align-items: center;
+       background-color: rgb(254, 204, 139);
+       border-radius: 20px;
+       box-shadow: 0 2px 2px rgb(230, 200, 160);
+       /* filter: blur(1px);  */
+       /*Ajouter un flou */
+       transition: filter 0.5s ease; /* Transition pour le flou */
+        /* Transition douce pour l'opacité */
+}
+#ERRORMESSAGE {
+       
+       display: none; /* Masquer le message au début */
+       justify-content: center;
+       position: fixed; /* Position fixe */
+       top: 20%; /* Position verticale au milieu */
+       left: 50%; /* Position horizontale au milieu */
+       transform: translate(-50%);
+       width: 200px;
+       height: 30px;
+       text-align: center;
+       align-items: center;
+       background-color: rgb(32, 30, 27);
+       border-radius: 20px;
+       color: #fff;
+       box-shadow: 0 2px 2px rgb(94, 90, 86);
+       /* filter: blur(1px);  */
+       /*Ajouter un flou */
+       transition: filter 0.5s ease; /* Transition pour le flou */
+        /* Transition douce pour l'opacité */
+}
+</style>
+<!-- home sectins -->
+<div>
+<div id="carouselExampleIndicators" class="carousel slide active" data-ride="carousel" data-overlay>
+        <ol class="carousel-indicators">
+          <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+          <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+          <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+        </ol>
+    <div class="carousel-inner" style="width: 100%; height: 100vh; box-shadow: 1px 1px 15px rgba(0,0, 0,0.4);">
+      <div class="carousel-item active" style="position: relative;">
+        <img src="{% static 'img/WhatsApp Image 2024-06-01 at 14.35.09(5).jpeg'%}" style="width: 100%;"  alt="First slide">
+            <div class="carousel-caption d-none d-md-block" style="position: absolute;
+            left: 311px;
+            top: 100px;
+            color: rgb(78, 205, 240);
+            text-align: left;">
+              <h5 style="color: white;">Bienvenue chez Indoka</h5>
+              <h1 style="color: white;">L'Essence de la Beauté Naturelle </h1>
+              <p style="color: white;">Découvrez l'Excellence de la Beauté avec Indoka</p>
+              <a class="btn btn-primary m-10" href="{%url 'shop'%}">Acheter</a>
+            </div>
+      </div>
+      <div class="carousel-item" style="position: relative;">
+        <img src="{% static 'img/ecommerce/static/img/WhatsApp Image 2024-06-01 at 14.35.09(6).jpeg'%}" style="width: 100%;" alt="First slide">
+            <div class="carousel-caption d-none d-md-block" style="position: absolute;
+            left: 311px;
+            top: 100px;
+            color: rgb(78, 205, 240);
+            text-align: left;">
+              <h5 style="color: white;">Bienvenue chez Indoka</h5>
+              <h1 style="color: white;">L'Essence de la Beauté Naturelle </h1>
+              <p style="color: white;">Découvrez l'Excellence de la Beauté avec Indoka</p>
+              <a class="btn btn-primary m-10" href="{%url 'shop'%}">Acheter</a>
+            </div>
+      </div>
+      <div class="carousel-item" style="position: relative;">
+        <img src="{% static 'img/WhatsApp Image 2024-06-01 at 14.35.09.jpeg'%}" style="width: 100%;" alt="First slide">
+            <div class="carousel-caption d-none d-md-block" style="position: absolute;
+            left: 311px;
+            top: 100px;
+            color: rgb(78, 205, 240);
+            text-align: left;">
+              <h5 style="color: white;">Bienvenue chez Indoka</h5>
+              <h1 style="color: white;">L'Essence de la Beauté Naturelle </h1>
+              <p style="color: white;">Découvrez l'Excellence de la Beauté avec Indoka</p>
+              <a class="btn btn-primary m-10" href="{%url 'shop'%}">Acheter</a>
+            </div>
+      </div>
+      
+    </div>
+    <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+      </a>
+      <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+      </a>
+    </div>
+<!-- end home -->
+
+<section class="section collection active" id="collection" aria-label="collection" data-section="">
+  <div class=" " >
+    <ul class="collection-list">
+      <li>
+        <div class="collection-card has-before hover:shine">
+          <h2 class="h2 card-title">Éclatez de Vitalité</h2>
+          <p class="card-text">Explorez notre collection </p>
+          <a href="#" class="btn-link">
+            <span class="span">Découvrir maintenant</span>
+            <ion-icon name="arrow-forward" aria-hidden="true"></ion-icon>
+          </a>
+          <div class="has-bg-image" style="background-image: url('../static/img/6-best-vitamins-supplements-after-surgery.webp');"></div>
+        </div>
+      </li>
+      <li>
+        <div class="collection-card has-before hover:shine">
+          <h2 class="h2 card-title">Nouveautés à la Une</h2>
+          <p class="card-text">Trouvez votre éclat naturel</p>
+          <a href="#" class="btn-link">
+            <span class="span">Explorez Maintenant</span>
+            <ion-icon name="arrow-forward" aria-hidden="true"></ion-icon>
+          </a>
+          <div class="has-bg-image" style="background-image: url('../static/img/Business-cases-Import-Overseas-en-temperature-dirigee-1.jpg');"></div>
+        </div>
+      </li>
+      <li>
+        <div class="collection-card has-before hover:shine">
+          <h2 class="h2 card-title">Sérénité et Équilibre</h2>
+          <p class="card-text">Explorez nos offres spéciales</p>
+          <a href="#" class="btn-link">
+            <span class="span">En Savoir Plus</span>
+            <ion-icon name="arrow-forward" aria-hidden="true"></ion-icon>
+          </a>
+          <div class="has-bg-image" style="background-image: url('../static/img/AdobeStock_118425925-scaled.webp');"></div>
+        </div>
+      </li>
+    </ul>
+  </div>
+</section>
+
+
+
+
+
+
+
+<!-- featured-->
+
+    <section id="product1" class="section-p1 active" data-section>
+  <div class="container text-center mt-5 py-3">
+    <h3>Découvrez l'Excellence</h3>
+    <hr class="mx-auto" />
+    <p>Explorez notre gamme de produits haut de gamme pour une expérience unique</p>
+  </div>
+  <div class="slider-wrapper">
+    <div class="pro-container">
+      {% if product_page %}
+      {% for produit in product_page %}
+      <div class="pro">
+        <a href="{% url 'detail' pk=produit.pk %}"><img src="{{ produit.image.url }}" alt="" id="img{{produit.id}}" style="text-align: center; height: 189px;"></a>
+        {% if produit.TauxRemise != 0 %}
+          <span class="badge" aria-label="20% off" >-{{produit.TauxRemise}}%</span>
+        {% endif %}
+        <div class="des">
+          <!-- <span>H&M</span> -->
+          <h5  id="aa{{ produit.id }}">{{ produit.name }} DH</h5>
+          <div class="star">
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+          </div>
+          <div class="price">
+            {% if produit.TauxRemise != 0 %}
+            <del class="del" >{{ produit.price}} DH</del>
+            <span class="span" id="price{{ produit.id }}">{{ produit.new_price }} DH</span>
+            {% else %}
+            <del class="del"></del>
+            <span class="span" id="price{{ produit.id }}">{{ produit.price }} DH</span>
+            {% endif%}
+          </div>
+        </div>
+        <div id="{{ produit.id }}" class="ted" value="{{ isAutentifiend }}">
+          <i class="fas fa-shopping-cart cart"></i>
+      </div>
+      </div>
+ 
+      {% endfor%}
+    {% endif %}
+
+      
+    
+      <div class="scrollbar-track">
+        <div class="scrollbar-thumb"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+
+<!--banner-->
+<section id="banner" class="my-5 py-5 active" data-section>
+  <div class="container">
+    <h4>Offre Spéciale</h4>
+    <h1>
+      Nouvelle Collection <br />
+      Économisez 20 % maintenant!
+    </h1>
+    <button class="text-uppercase">Acheter Maintenant</button>
+  </div>
+</section>
+<div class="">
+  <div class="title-wrapper">
+    <h2 class="h2 section-title">  </h2>
+
+    <a href="#" class="btn-link" style="text-decoration: none;">
+      <span class="span">Découvrir Maintenant</span>
+
+      <i class='bx bx-right-arrow-alt'></i>
+    </a>
+  </div>
+</div>
+
+<!-- product -->
+
+<section id="product1" class="section-p1 active " data-section>
+  <div class="container text-center mt-5 py-3">
+    <h3> </h3>
+   
+    <p></p>
+  </div>
+  <div class="slider-wrapper">
+    <div class="pro-container">
+      {% if product_page %}
+      {% for produit in product_page %}
+      <div class="pro">
+        <a href="{% url 'detail' pk=produit.pk %}"><img src="{{ produit.image.url }}" alt="" id="img{{produit.id}}" style="text-align: center; height: 189px;"></a>
+        {% if produit.TauxRemise != 0 %}
+          <span class="badge" aria-label="20% off" >-{{produit.TauxRemise}}%</span>
+        {% endif %}
+        <div class="des">
+          <!-- <span>H&M</span> -->
+          <h5  id="aa{{ produit.id }}">{{ produit.name }} DH</h5>
+          <div class="star">
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+          </div>
+          <div class="price">
+            {% if produit.TauxRemise != 0 %}
+            <del class="del" >{{ produit.price}} DH</del>
+            <span class="span" id="price{{ produit.id }}">{{ produit.new_price }} DH</span>
+            {% else %}
+            <del class="del"></del>
+            <span class="span" id="price{{ produit.id }}">{{ produit.price }} DH</span>
+            {% endif%}
+          </div>
+        </div>
+        <div id="{{ produit.id }}" class="ted" value="{{ isAutentifiend }}">
+          <i class="fas fa-shopping-cart cart"></i>
+      </div>
+      </div>
+ 
+      {% endfor%}
+    {% endif %}
+
+   
+      
+    
+      <div class="scrollbar-track">
+        <div class="scrollbar-thumb"></div>
+      </div>
+    </div>
+  </div>
+</section>
+<DIV ID="successMessage"> ADD TO CARTE </DIV>
+<DIV ID="ERRORMESSAGE"> LOGIN PLEASE </DIV>
+
+
+<!-- BANNER Section -->
+<section class="section banner active" aria-label="bannière" data-section>
+  <div class=" ">
+  <ul class="banner-list">
+  <li>
+    <div class="banner-card banner-card-1 has-before hover:shine" data-overlay>
+    <p     style="color: white;"     class="card-subtitle">Collection Automne Exclusive</p>
+    <h2 class="h2 card-title"     style="color: white;"  >Boostez Votre Santé </h2>
+    <a href="#" class="btn btn-secondary"  style="color: white;"  >Découvrir Maintenant</a>
+    <div class="has-bg-image" style="background-image: url('../static/img/photos.jpg')"></div>
+    </div>
+  </li>
+  <li>
+    <div class="banner-card banner-card-2 has-before hover:shine" data-overlay>
+    <h2 class="h2 card-title"  style="color: white;"  >20% de Réduction sur Tous Nos Produits</h2>
+    <p class="card-text"  style="color: white;"  >Des Compléments Pour Chaque Besoin.</p>
+    <a href="#" class="btn btn-secondary"  style="color: white;"   style="color: white;"  >Profiter des Offres</a>
+    <div class="has-bg-image" style="background-image: url('../static/img/img2.jpg')"></div>
+    </div>
+  </li>
+  </ul>
+  </div>
+  </section>
+<br>
+<br>
+
+<!-- FEATURE Section -->
+<section class="section feature" aria-label="feature" data-section>
+  <div class="">
+  <h2 class="h2-large section-title"  style="color: #020014;">Pourquoi choisir Indoka Laboratoires ?</h2>
+  <ul class="flex-list"  style="padding-left: 0rem ; ">
+  <li class="flex-item ">
+    <div class="feature-card">
+    <img src="{% static 'img/feature-1.jpg'%}" width="204" height="236" loading="lazy" alt="100% BIO" class="card-icon">
+    <h3 class="h3 card-title" style="color: #000;">100% BIO</h3>
+    <p class="card-text">Nos produits cosmétiques sont certifiés biologiques <br> et fabriqués avec des ingrédients naturels 
+      et respectueux de l'environnement.</p>
+    </div>
+  </li>
+  <li class="flex-item">
+    <div class="feature-card">
+    <img src="{% static 'img/feature-2.jpg'%}" width="204" height="236" loading="lazy" alt="Sans Cruauté" class="card-icon">
+    <h3 class="h3 card-title" style="color: #000; margin-bottom: 44px;
+  ">Sans Cruauté</h3>
+    <p class="card-text">Tous nos produits sont testés scientifiquement et garantis sans cruauté.</p>
+    </div>
+  </li>
+  <li class="flex-item">
+    <div class="feature-card" >
+    <img src="{% static 'img/feature-3.jpg'%}" width="204" height="236" loading="lazy" alt="Traçabilité des Ingrédients" class="card-icon">
+    <h3 class="h3 card-title" style="color: #000;">Traçabilité des Ingrédients</h3>
+    <p class="card-text">Nous assurons une traçabilité complète de chaque ingrédient utilisé,provenant de <br> sources éthiques et durables.</p>
+    </div>
+  </li>
+  </ul>
+  </div>
+  </section>
+
+
+
+     <!-- 
+        - #BLOG
+      -->
+<br>
+      <section class="section blog active" id="blog" aria-label="blog" data-section>
+        <h2 class="h2-large section-title" style="color: #020014;">Découvrez Notre Laboratoire</h2>
+    
+        <ul class="flex-list" >
+    
+            <li class="flex-item">
+                <div class="blog-card">
+    
+                    <figure class="card-banner img-holder has-before hover:shine" style="--width: 700; --height: 450;">
+                        <img src="{% static 'img/cleanroom_class_d.jpg'%}" width="700" height="450" loading="lazy" alt="Trouvez un Point de Vente"
+                            class="img-cover">
+                    </figure>
+    
+                    <h3 class="h3">
+                        <a href="#" class="card-title" style="color: #000;">Trouvez un Point de Vente</a>
+                    </h3>
+    
+                    <a href="{%url 'about_Us'%}" class="btn-link" style="text-decoration: none;">
+                        <span class="span">En Savoir Plus</span>
+                        <i class='bx bx-right-arrow-alt'></i>
+    
+                        <ion-icon name="arrow-forward-outline" aria-hidden="true"></ion-icon>
+                    </a>
+    
+                </div>
+            </li>
+    
+            <li class="flex-item">
+                <div class="blog-card">
+    
+                    <figure class="card-banner img-holder has-before hover:shine" style="--width: 700; --height: 450;">
+                        <img src="{% static 'img/bigstock-Doctor-With-Medical-Healthcare-213017662.jpg'%}" width="700" height="450" loading="lazy" alt="Depuis Notre Blog"
+                            class="img-cover">
+                    </figure>
+    
+                    <h3 class="h3">
+                        <a href="#" class="card-title" style="color: #000;">Depuis Notre Blog</a>
+                    </h3>
+    
+                    <a href="{%url 'about_Us'%}" class="btn-link" style="text-decoration: none;">
+                        <span class="span">En Savoir Plus</span>
+                        <i class='bx bx-right-arrow-alt'></i>
+    
+                        <ion-icon name="arrow-forward-outline" aria-hidden="true"></ion-icon>
+                    </a>
+    
+                </div>
+            </li>
+    
+            <li class="flex-item">
+                <div class="blog-card">
+    
+                    <figure class="card-banner img-holder has-before hover:shine" style="--width: 700; --height: 450;">
+                        <img src="{% static 'img/education-career-chemical-engineering.webp'%}" width="700" height="450" loading="lazy" alt="Notre Histoire"
+                            class="img-cover">
+                    </figure>
+    
+                    <h3 class="h3">
+                        <a href="#" class="card-title" style="color: #000;">Notre Histoire</a>
+                    </h3>
+    
+                    <a href="{%url 'about_Us'%}" class="btn-link" style="text-decoration: none;">
+                        <span class="span" style="color: #000;">En Savoir Plus</span>
+                        <i class='bx bx-right-arrow-alt'></i>
+                        <ion-icon name="arrow-forward-outline" aria-hidden="true"></ion-icon>
+                    </a>
+    
+                </div>
+            </li>
+    
+        </ul>
+    
+    </div>
+      </section>
+
+    
+<!--brand-->
+      <section id="brand" class="container active" data-section>
+        <div class="row">
+          <div class="col-lg-2 col-md-3 col-sm-6">
+            <img
+              class="img-fluid"
+              src="{% static 'img/OIP (1).jpg'%}"
+              alt="Brand Image 1"
+            />
+          </div>
+          <div class="col-lg-2 col-md-3 col-sm-6">
+            <img class="img-fluid" src="{% static 'img/22000.png'%}" alt="Brand Image 2" />
+          </div>
+          <div class="col-lg-2 col-md-3 col-sm-6">
+            <img
+              class="img-fluid"
+              src="{% static 'img/5.jpg'%}"
+              alt="Brand Image 3"
+            />
+          </div>
+          <div class="col-lg-2 col-md-3 col-sm-6">
+            <img
+              class="img-fluid"
+              src="{% static 'img/top QuVALITY.jpg'%}"
+              alt="Brand Image 4"
+            />
+          </div>
+          <div class="col-lg-2 col-md-3 col-sm-6">
+            <img
+              class="img-fluid"
+              src="{% static 'img/images.png' %}"
+              alt="Brand Image 4"
+            />
+          </div>
+          <div class="col-lg-2 col-md-3 col-sm-6">
+            <img class="img-fluid" src="{% static 'img/ONSSA (1).png'%}" alt="Brand Image 4" />
+          </div>
+        </div>
+      </section>
+
+</body>
+</html>
+
+
+
+
+{% endblock content%}
+{% block js %}
+<script src="app1.js"></script>
+<script src="about.js"></script>
+<script>
+    
+  $(document).ready(function() {
+  // Function to update cart item quantity
+  function changeQuantityCart(product_id, type) {
+      if (cart.hasOwnProperty(product_id)) {
+          switch (type) {
+              case 'plus':
+                  cart[product_id][0]++;
+                  break;
+              case 'minus':
+                  if (cart[product_id][0] > 1) {
+                      cart[product_id][0]--;
+                  } else {
+                      delete cart[product_id];
+                  }
+                  break;
+          }
+          updateCart();
+          updateLocalStorage();
+          
+      }
+  }
+
+  // Event listener for plus and minus buttons
+  $('.quantity').on('click', '.minus, .plus', function() {
+      let product_id = $(this).data('product-id');
+      let type = $(this).hasClass('plus') ? 'plus' : 'minus';
+      changeQuantityCart(product_id, type);
+  });
+
+  // Initialize cart from localStorage
+  let cart = localStorage.getItem('cart') ? JSON.parse(localStorage.getItem('cart')) : {};
+
+  // Function to update local storage
+  function updateLocalStorage() {
+      localStorage.setItem('cart', JSON.stringify(cart));
+  }
+
+  // Update cart display
+  function updateCart() {
+      let total = 0;
+      let quantityTotal = 0;
+
+      $('#item-list').empty(); // Clear existing items
+
+      for (let item in cart) {
+          if (cart.hasOwnProperty(item)) {
+              let [quantity, name, price, imageUrl] = cart[item];
+              let subtotal = quantity * price;
+              total += subtotal;
+              quantityTotal += quantity;
+              console.log(imageUrl);
+              let itemString = `<tr>
+                  <td>
+                      <div class="item">
+                          <div class="product-info">
+                              <img src="${imageUrl}"/>
+                              <div>
+                                  <input type="hidden" name="item" value="${item}">
+                                  <p>${name}</p>
+                                  <small>${price} dh</small>
+                              </div>
+                          </div>
+                      </div>
+                  </td>
+                  <td>
+                      <div class="quantity">
+                          <span class="minus" data-product-id="${item}">-</span>
+                          <span>${quantity}</span>
+                          <span class="plus" data-product-id="${item}">+</span>
+                      </div>
+                  </td>
+                  <td>
+                      <span class="product">${subtotal} dh</span>
+                  </td>
+              </tr>`;
+              $('#item-list').append(itemString);
+          }
+      }
+
+      $('#subtotal').text(total + ' dh');
+      $('#total').val(total + 'dh');
+      $('#TQTE').text(quantityTotal);
+      document.getElementById("panier").innerHTML = quantityTotal;
+  }
+
+  // Event listener for 'Add to Cart' buttons
+  $(document).on('click', '.ted', function() {
+      console.log('Add to Cart');
+      let item_id = $(this).attr('id');
+      const isAuthenticated = $(this).attr('value'); 
+     
+      if (isAuthenticated == 'True') {
+          console.log(isAuthenticated);
+          document.getElementById("successMessage").style.display = "block"; // Afficher le message
+           setTimeout(function(){
+           document.getElementById("successMessage").style.display = "none"; // Masquer le message après 2 secondes
+           }, 2000);
+          if (cart[item_id] != undefined) {
+              cart[item_id][0]++;
+          } else {
+              console.log($('#img' + item_id).attr('src'));
+              cart[item_id] = [1, $('#aa' + item_id).text(), parseFloat($('#price' + item_id).text()), $('#img' + item_id).attr('src')];
+          }
+          updateCart();
+          updateLocalStorage();
+      } else {
+          console.log(isAuthenticated);
+          document.getElementById("ERRORMESSAGE").style.display = "block"; // Afficher le message
+           setTimeout(function(){
+           document.getElementById("ERRORMESSAGE").style.display = "none"; // Masquer le message après 2 secondes
+           }, 2000);
+      }
+  });
+
+  // Update cart display on page load
+  updateCart();
+ 
+});
+
+function affichageErreur() {
+    
+    const targetNotification = document.querySelector('.notification');
+      
+            //  targetNotification.style.display = "block"; // Afficher le message
+            //  setTimeout(function(){
+            //  targetNotification.style.display = "none"; // Masquer le message après 2 secondes
+            //  }, 5000);
+        
+
+        targetNotification.classList.toggle('showed');
+        // Set auto close for 5 seconds
+        setTimeout(function() {
+            targetNotification.classList.remove('showed');
+        }, 5000);
+        const closes = document.querySelectorAll('.close');
+ 
+        closes.forEach(function(el) {
+        el.addEventListener('click', function() {
+        const parentNotification = el.parentNode;
+        if (parentNotification.classList.contains('showed')) {
+            parentNotification.classList.remove('showed');
+        }
+    });
+});
+
+}
+</script>
+
+{% endblock %}

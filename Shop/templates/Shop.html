@@ -1,0 +1,309 @@
+{% extends "index.html" %}
+{% load static %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/style3.css'%}"/>
+		
+<style>
+ .product img{
+    width: 100px;
+    height: auto;
+    box-sizing: border-box;
+    object-fit: cover;
+ }
+.pagination a{
+    color: coral;
+
+}
+.pagination li:hover a{
+    color: #fff;
+    background-color: coral;
+
+}
+.product img{
+    width: 100px;
+    height: auto;
+    box-sizing: border-box;
+    object-fit: cover;
+ }
+.pagination a{
+    color: coral;
+
+}
+.pagination li:hover a{
+    color: #fff;
+    background-color: coral;
+
+}
+#successMessage {
+       
+        display: none; /* Masquer le message au début */
+        justify-content: center;
+        position: fixed; /* Position fixe */
+        top: 20%; /* Position verticale au milieu */
+        left: 50%; /* Position horizontale au milieu */
+        transform: translate(-50%);
+        width: 400px;
+        height: 30px;
+        text-align: center;
+        align-items: center;
+        background-color: rgb(254, 204, 139);
+        border-radius: 20px;
+        box-shadow: 0 2px 2px rgb(230, 200, 160);
+        /* filter: blur(1px);  */
+        /*Ajouter un flou */
+        transition: filter 0.5s ease; /* Transition pour le flou */
+         /* Transition douce pour l'opacité */
+}
+#erreurMessage {
+       
+       display: none; /* Masquer le message au début */
+       justify-content: center;
+       position: fixed; /* Position fixe */
+       top: 20%; /* Position verticale au milieu */
+       left: 50%; /* Position horizontale au milieu */
+       transform: translate(-50%);
+       width: 200px;
+       height: 30px;
+       text-align: center;
+       align-items: center;
+       background-color: rgb(32, 30, 27);
+       border-radius: 20px;
+       color: #fff;
+       box-shadow: 0 2px 2px rgb(94, 90, 86);
+       /* filter: blur(1px);  */
+       /*Ajouter un flou */
+       transition: filter 0.5s ease; /* Transition pour le flou */
+        /* Transition douce pour l'opacité */
+    }
+    
+
+
+</style>
+
+<section id="page-header" class="stayhome">
+
+  <h2>#Boutique</h2>
+
+  <p>Économisez plus avec des coupons et jusqu'à 20 % de réduction !</p>
+
+</section>
+
+<section id="product1" class="section-p1 ">
+  <div class="pro-container mt-5 py-3">
+    {% if product_page %}
+    {% for produit in product_page %}
+
+      <div class="pro col-lg-3 col-md-6 col-sm-12"  style="position: relative;">
+        <a href="{% url 'detail' pk=produit.pk %}"><img src="{{ produit.image.url }}" alt="" id="img{{produit.id}}" style="text-align: center; height: 189px;"></a>
+        {% if produit.TauxRemise != 0 %}
+          <span class="badge" aria-label="20% off" >-{{produit.TauxRemise}}%</span>
+        {% endif %}
+          <div class="des">
+              <!-- <span>H&M</span> -->
+              <h5  id="aa{{ produit.id }}">{{ produit.name }} DH</h5>
+              <div class="star">
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+              </div>
+              <div class="price">
+                {% if produit.TauxRemise != 0 %}
+            <del class="del" >{{ produit.price}} DH</del>
+            <span class="span" id="price{{ produit.id }}">{{ produit.new_price }} DH</span>
+            {% else %}
+            <del class="del"></del>
+            <span class="span" id="price{{ produit.id }}">{{ produit.price }} DH</span>
+            {% endif%}
+              </div>
+          </div>
+          <div id="{{ produit.id }}" class="ted" value="{{ isAutentifiend }}">
+              <i class="fas fa-shopping-cart cart"></i>
+          </div>
+      </div>
+    {% endfor%}
+    {% endif %}
+
+    <div id="successMessage" >Ajouté au panier!</div>
+    <div id="erreurMessage" >please login</div>
+    <br><br><br>
+     
+  </div>
+
+</section>
+
+<div class="row mt-3">
+    <div class="col-md-3 offset-md-4">
+        <ul class="pagination">
+            {% if product_page.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ product_page.previous_page_number }}">Precedent</a>
+                </li>
+            {% endif %}    
+
+                <li class="page-item active">
+                    <a class="page-link" href="?page={{ product_page.number }}">{{ product_page.number }}</a>
+                </li>
+
+            {% if product_page.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ product_page.next_page_number }}">Suivant</a>
+                </li>
+            {% endif %} 
+
+        </ul>
+    </div>
+</div>
+{% endblock content%}
+{% block js %}
+<script>
+    
+    $(document).ready(function() {
+    // Function to update cart item quantity
+    function changeQuantityCart(product_id, type) {
+        if (cart.hasOwnProperty(product_id)) {
+            switch (type) {
+                case 'plus':
+                    cart[product_id][0]++;
+                    break;
+                case 'minus':
+                    if (cart[product_id][0] > 1) {
+                        cart[product_id][0]--;
+                    } else {
+                        delete cart[product_id];
+                    }
+                    break;
+            }
+            updateCart();
+            updateLocalStorage();
+            
+        }
+    }
+
+    // Event listener for plus and minus buttons
+    $('.quantity').on('click', '.minus, .plus', function() {
+        let product_id = $(this).data('product-id');
+        let type = $(this).hasClass('plus') ? 'plus' : 'minus';
+        changeQuantityCart(product_id, type);
+    });
+
+    // Initialize cart from localStorage
+    let cart = localStorage.getItem('cart') ? JSON.parse(localStorage.getItem('cart')) : {};
+
+    // Function to update local storage
+    function updateLocalStorage() {
+        localStorage.setItem('cart', JSON.stringify(cart));
+    }
+
+    // Update cart display
+    function updateCart() {
+        let total = 0;
+        let quantityTotal = 0;
+
+        $('#item-list').empty(); // Clear existing items
+
+        for (let item in cart) {
+            if (cart.hasOwnProperty(item)) {
+                let [quantity, name, price, imageUrl] = cart[item];
+                let subtotal = quantity * price;
+                total += subtotal;
+                quantityTotal += quantity;
+                console.log(imageUrl);
+                let itemString = `<tr>
+                    <td>
+                        <div class="item">
+                            <div class="product-info">
+                                <img src="${imageUrl}"/>
+                                <div>
+                                    <input type="hidden" name="item" value="${item}">
+                                    <p>${name}</p>
+                                    <small>${price} dh</small>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="quantity">
+                            <span class="minus" data-product-id="${item}">-</span>
+                            <span>${quantity}</span>
+                            <span class="plus" data-product-id="${item}">+</span>
+                        </div>
+                    </td>
+                    <td>
+                        <span class="product">${subtotal} dh</span>
+                    </td>
+                </tr>`;
+                $('#item-list').append(itemString);
+            }
+        }
+
+        $('#subtotal').text(total + ' dh');
+        $('#total').val(total + 'dh');
+        $('#TQTE').text(quantityTotal);
+        document.getElementById("panier").innerHTML = quantityTotal;
+    }
+
+    // Event listener for 'Add to Cart' buttons
+    $(document).on('click', '.ted', function() {
+        console.log('Add to Cart');
+        let item_id = $(this).attr('id');
+        const isAuthenticated = $(this).attr('value'); 
+       
+        if (isAuthenticated == 'True') {
+            console.log(isAuthenticated);
+            document.getElementById("successMessage").style.display = "block"; // Afficher le message
+             setTimeout(function(){
+             document.getElementById("successMessage").style.display = "none"; // Masquer le message après 2 secondes
+             }, 2000);
+            if (cart[item_id] != undefined) {
+                cart[item_id][0]++;
+            } else {
+                console.log($('#img' + item_id).attr('src'));
+                cart[item_id] = [1, $('#aa' + item_id).text(), parseFloat($('#price' + item_id).text()), $('#img' + item_id).attr('src')];
+            }
+            updateCart();
+            updateLocalStorage();
+        } else {
+            document.getElementById("erreurMessage").style.display = "block"; // Afficher le message
+             setTimeout(function(){
+             document.getElementById("erreurMessage").style.display = "none"; // Masquer le message après 2 secondes
+             }, 2000);
+            
+        }
+    });
+
+    // Update cart display on page load
+    updateCart();
+   
+});
+function affichageErreur() {
+    
+    const targetNotification = document.querySelector('.notification');
+      
+            //  targetNotification.style.display = "block"; // Afficher le message
+            //  setTimeout(function(){
+            //  targetNotification.style.display = "none"; // Masquer le message après 2 secondes
+            //  }, 5000);
+        
+
+        targetNotification.classList.toggle('showed');
+        // Set auto close for 5 seconds
+        setTimeout(function() {
+            targetNotification.classList.remove('showed');
+        }, 5000);
+        const closes = document.querySelectorAll('.close');
+ 
+        closes.forEach(function(el) {
+        el.addEventListener('click', function() {
+        const parentNotification = el.parentNode;
+        if (parentNotification.classList.contains('showed')) {
+            parentNotification.classList.remove('showed');
+        }
+    });
+});
+
+}
+
+</script>
+{% endblock %}

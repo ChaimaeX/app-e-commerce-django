@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>Home</title>
+    <link rel="stylesheet" href="{% static 'css/style.css'%}">
+		<link
+			rel="stylesheet"
+			href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+		/>
+		<link
+			rel="stylesheet"
+			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+		/>
+		<link
+			rel="stylesheet"
+			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+		/>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+   <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="dns-prefetch" href="//fonts.googleapis.com">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css" >
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+		<link rel="stylesheet" href="{% static 'css/swiper-bundle.min.css'%}" />
+	</head>
+  <style>
+  nav li {
+  list-style: none;
+  /* padding: 0 20px; */
+  position: relative;
+}
+
+nav li a {
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: 600;
+  color: #1a1a1a;
+}
+
+nav li a:hover,
+nav li a.active {
+  color: #22b2de;
+  transition: 0.3s ease;
+
+}
+
+nav li a.active::after,
+nav li a:hover::after {
+  content: "";
+  width: 40%;
+  height: 2px;
+  background-color: #22b2de;
+  position: absolute;
+  bottom: 0px;
+  left: 10px;
+}
+
+
+  </style>
+	<body>
+    <header  data-header></header>
+		<!--navbar-->
+		<nav
+			class="navbar navbar-expand-lg bg-body-tertiary navbar-light bg-w py-3 fixed-top"  data-navbar>
+		
+			<div class="container">
+				<img class="logo" src="{% static 'img/logo indoka.png' %}" />
+				<button
+					class="navbar-toggler"
+					type="button"
+					data-bs-toggle="collapse"
+					data-bs-target="#navbarSupportedContent"
+					aria-controls="navbarSupportedContent"
+					aria-expanded="false"
+					aria-label="Toggle navigation"
+				>
+					<span class="navbar-toggler-icon"></span>
+				</button>
+        <div class="collapse navbar-collapse nav-buttons" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0 " style="font-size: 17PX;">
+            <li class="nav-item">
+              <a class="nav-link" href="/" data-nav-link>Accueil</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'shop' %}" data-nav-link>Boutique</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'about_Us' %}" data-nav-link>À propos</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'contact'%}" data-nav-link>Contactez-nous</a>
+            </li>
+            <!-- <li class="nav-item">
+              <a class="nav-link cart-item" href="{% url 'user-logout'%}">Logout</a>
+            </li> -->
+          </ul>
+          <ul class="navbar-nav mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'Login' %}" data-nav-link><i class="fas fa-user"></i></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link cart-item" href="{% url 'Chekout' %}" data-nav-link><i class="fas fa-shopping-cart"><span id="panier" style="font-size:12px ;"></span></i></a>
+            </li>
+					</ul>
+				</div>
+			</div>
+		</nav>
+
+
+
+<!-- end navbar -->
+
+
+<div class="container">
+  <div class="wrapper">
+    <br>
+    {% for message in messages %}
+    <div class="alert {{message.tags}} alert-dismissible" role="alert">
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+      {{ message|safe }}
+    </div>
+    {% endfor %}
+  </div>
+</div> 
+
+<div >
+
+  {% block content %}
+
+  {% endblock content %} 
+
+</div> 
+
+
+<!--Fonter-->
+
+<!--Fonter-->
+
+<footer>
+
+  <div class="lolo-footer">
+    <div class="box__footer">
+      <div class="logos">
+        <img src="{% static 'img/logo indoka.png' %}" alt="">
+      </div>
+      <div class="terms">
+        <p>Lorem officiis quam atque laudantium, nam deleniti sapiente deserunt.</p>
+      </div>
+    </div>
+    <div class="box__footer">
+      <h2>Soluciones</h2>
+      <a href="https://www.google.com">App Desarrollo</a>
+      <a href="#">App Marketing</a>
+      <a href="#">IOS Desarrollo</a>
+      <a href="#">Android Desarrollo</a>
+    </div>
+
+    <div class="box__footer">
+      <h2>Compañia</h2>
+      <a href="#">Acerca de</a>
+      <a href="#">Trabajos</a>
+      <a href="#">Procesos</a>
+      <a href="#">Servicios</a>              
+    </div>
+
+    <div class="box__footer">
+      <h2>Redes Sociales</h2>
+      <a href="#"> <i class="fab fa-facebook-square"></i> Facebook</a>
+      <a href="#"><i class="fab fa-twitter-square"></i> Twitter</a>
+      <a href="#"><i class="fab fa-linkedin"></i> Linkedin</a>
+      <a href="#"><i class="fab fa-instagram-square"></i> Instagram</a>
+    </div>
+
+  </div>
+
+  <div class="box__copyright">
+    <hr>
+    <p>Todos los derechos reservados © 2021 <b>MagtimusPro</b></p>
+  </div>
+</footer>
+<script src="https://kit.fontawesome.com/41bcea2ae3.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<script src="{% static 'js/app.js'%}"></script>
+<script src="{% static 'js/app1.js'%}"></script>
+<script src="{% static 'js/about.js'%}"></script>
+
+{% block js %}
+    <script>
+        localStorage.setItem('cart', JSON.stringify(cart));//ila drna refriche dakchi kayb9a kima howa makaytamsa7ch 
+        document.getElementById("panier").innerHTML = Object.keys(cart).length;// c'est le nombre de produit qui va affichier
+      </script>   
+{% endblock %}
+</body>
+</html>

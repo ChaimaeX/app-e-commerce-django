@@ -1,0 +1,211 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<style>
+    *{
+margin:0;
+padding:0;
+}
+body{
+/* background-color: #222;
+color:#fff; */
+font-size: system-ui;
+}
+.stock{
+width: 100%;
+margin: auto;
+}
+.head{
+text-align: center;
+text-transform: uppercase;
+margin: 40px , 0;
+padding: 30px;
+}
+/* input{
+width: 100%;
+height: 30px;
+outline: none;
+border: none;
+background-color: #111;
+margin: 4px 0;
+border-radius: 4px;
+padding: 10px 4px;
+
+color: #fff;
+} */
+/* had focus fach ktochi l input ktbdal lon dyalha*/
+/* input:focus{
+background: #000;
+transform: scale(1.1);
+} */
+#prix.input{
+
+display: flex;
+justify-content: space-between;
+}
+#total{
+background-color: red;
+padding: 4px 2px;
+border-radius: 4px;
+
+}
+#total::before{
+content: 'Total: ';
+}
+.bton{
+width: 100%;
+height: 30px;
+border: none;
+border-radius: 10px;
+cursor: pointer;
+background: #551055;
+transition: 0.5s;
+color: #fff;
+}
+button:hover{
+background: #c944ae;
+letter-spacing: 2px;
+}
+.btnsearch{
+display: flex;
+justify-content: space-between;
+
+}
+.btnsearch button{
+width: 45%;
+}
+table{
+width: 100%;
+text-align: center;
+margin: 10px 0;
+}
+table th{
+text-transform: uppercase;
+}
+th,td{
+padding: 5px;
+}
+#deleteAll{
+margin: 20px 0;
+}
+#telecharger{
+margin: 20px 4px;
+width: auto;
+height: 30px;
+border-radius: 10px;
+text-align: center;
+padding-top: 5px;
+cursor: pointer;
+background-color: red;
+display: none;
+
+}
+a{
+color: #fff;
+text-decoration: none;
+} 
+a:hover{
+color: var(#000);
+}
+
+</style>
+            <!-- ================ Order Details List Product  ================= -->
+            <div class="details">
+                <div class="recentOrders">
+                    <div class="cardHeader">
+                        <h2>Liste De Produits</h2>
+                        <a href="{% url 'Ajouter_Produit' %}" class="btn btn-warning">Ajouter produit</a>
+                    </div>
+
+                    <br><br><br>
+                    <div class="outputs">
+                     <!-- <div class="form-group ">
+                         <input id="search" class="form-control" type="text" placeholder="Search....">
+                     </div> -->
+                           <!-- <div class="btnsearch">
+                             <button id="searchTitle" onclick="getSearch(this.id)">Search By Title</button>
+                             <button id="searchCategory" onclick="getSearch(this.id)">Search By category</button>
+             
+                          </div> -->
+                    
+                     <div id="deleteAll"></div>
+                     <table>
+                         <thead>
+                         <tr>
+                             <th>id</th>
+                             <th>nom</th>
+                             <th>prix</th>
+                             <th> quantite</th>
+                             <th> Total</th>
+                             <th> category</th>
+                             <th>modifier</th>
+                             <th>supprimer</th>
+                         </tr>
+                        </thead>
+                       
+                         <tbody id="myTab">
+                             {% if product %}
+                             {% for produit in product %}
+                             <tr>
+                             <th scope="row">{{produit.pk}}</th>
+                             <td>{{produit.name}}</td>
+                             <td>{{produit.price}}</td>
+                             <td>{{produit.quantity}}</td>
+                             <td>{{produit.total}}</td>
+                             <td>{{produit.category}}</td>
+                             <form method="post" action="{% url 'up-produit' %}">
+                             {% csrf_token %}
+                             <input type="hidden"name="update" id="update" value="{{produit.pk}}">
+                             <td><button class="bton" type="submit"  data-toggle="modal" >modifier</button></td>
+                             </form>
+                             
+                             <form method="post" >
+                             {% csrf_token %}
+                             <input type="hidden" name="id_sup" id="id_sup" value="{{produit.pk}}">
+                             <td><button  class="bton" type="submit"  data-toggle="modal" >supprimer</button></td>
+                             
+                             </form>
+                            </tr>
+                         {% endfor %}
+                         {% endif %}
+                       </tbody>
+                     </table>
+                    </div>
+                 </div>
+                
+                 
+                
+                          
+                </div>
+
+
+
+ <br><br>
+
+
+    <!-- =========== Scripts =========  -->
+    <script src="{% static 'js/main.js'%}"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    
+    <!-- ====== ionicons ======= -->
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+    <script>
+        $(document).ready(function(){
+        $("#search").on("keyup", function(){
+            let value = $(this).val().toLowerCase();
+            console.log(value);
+            $("#myTab tr").filter(function(){
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+            });
+         });
+        });
+    
+        </script>
+</body>
+
+</html>
+
+
+{% endblock content %}

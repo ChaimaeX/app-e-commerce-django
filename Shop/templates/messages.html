@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+  
+<div class="details">
+<div class="recentOrders">
+<div class="cardHeader">
+  <table class="table table-striped text-center">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">name</th>
+        <th scope="col">email</th>
+        <th scope="col">Subject</th>
+        <th scope="col">Message</th>
+        <th scope="col" >Action</th>
+      </tr>
+    </thead>
+    <tbody id="myTable">
+      {% if messgs %}
+        {% for msg in messgs%}
+      <tr>
+        
+        <th scope="row">{{msg.pk}}</th>
+        <td>{{msg.name}}</td>
+        <td>{{msg.email}}</td>
+        <td>{{msg.subj}}</td>
+        <td>{{msg.message}}</td>
+        <form  method="post">
+        {% csrf_token %}
+        <input type="hidden" name="id_sup" value="{{ msg.pk }}">
+        <td><button class="btn btn-primary">Supprimer</button></td>
+      </form>
+      </tr>
+        {% endfor %}
+        {% endif %}
+    </tbody>
+  </table>
+
+</div>
+</div></div>
+<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+
+<script>
+  console.log('chaimae')
+       $(document).ready(function(){
+       $("#search").on("keyup", function(){
+          var value = $(this).val().toLowerCase();
+          $("#myTable tr").filter(function(){
+             $(this).toggle($(this).text().toLocaleLowerCase().indexOf(value)>-1)
+          });
+       });
+    });
+  </script>
+{% endblock content%}

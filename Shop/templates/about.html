@@ -1,0 +1,178 @@
+{% extends "index.html" %}
+{% load static %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/style7.css'%}">
+ 
+
+
+  <section id="page-header" class="contact-header">
+    <h1 >#A propos de nous</h1>
+    <p>Découvrez notre société Indoka!</p>
+  </section>
+
+  <section class="about section">
+    <div class="">
+        <div class="row">
+            <div class="col-md-6 content-section">
+                <div class="title">
+                    <h1 style="text-align: left;">Découvrir Indoka </h1>
+                    <h3 style="text-align: left;">Une Exploration de l'Excellence</h3>
+                </div>
+                <div class="content">
+                    <!-- <h3>Lorem ipsum dolor sit amet, consectetur adipisicing</h3> -->
+                    <p>Les Laboratoires INDOKA sont spécialisés dans la production de compléments alimentaires et de produits cosmétiques. Avec plus de 20 ans d'expérience, nous avons développé un large portefeuille de produits 100% purs et naturels, garantissant une meilleure santé. Grâce à notre réseau mondial de fabrication, nous aidons les responsables marketing à lancer et approvisionner des compléments alimentaires de manière fiable et rapide, tout en fournissant les conseils nécessaires pour l'enregistrement auprès de l’Administration Marocaine des Médicaments et de la Pharmacie.</p>
+                    <div class="">
+                        <a href="#" class="btn btn-primary">En Savoir Plus</a>
+                    </div>
+                </div>
+                <div class="social">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+            <div class="col-md-6 image-section">
+                <img src="{% static 'img/A5.jpg'%}" alt="Image À Propos de Nous">
+            </div>
+        </div>
+    </div>
+</section>
+
+  <section id="about-app" class="section-p1">
+    <h1 id="lo">Découvrez notre <a href="#">laboratoire</a></h1>
+    <div class="video">
+        <video autoplay muted loop controls>
+            <source src="{% static 'img/INDOKA2024.mp4' %}" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+  </section>
+  
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/js/app.js"></script>
+  <script src="assets/js/swiper-bundle.min.js"></script>
+
+{% endblock content %}
+{% block js %}
+<script src="app1.js"></script>
+
+<script>
+    
+  $(document).ready(function() {
+  // Function to update cart item quantity
+  function changeQuantityCart(product_id, type) {
+      if (cart.hasOwnProperty(product_id)) {
+          switch (type) {
+              case 'plus':
+                  cart[product_id][0]++;
+                  break;
+              case 'minus':
+                  if (cart[product_id][0] > 1) {
+                      cart[product_id][0]--;
+                  } else {
+                      delete cart[product_id];
+                  }
+                  break;
+          }
+          updateCart();
+          updateLocalStorage();
+          
+      }
+  }
+
+  // Event listener for plus and minus buttons
+  $('.quantity').on('click', '.minus, .plus', function() {
+      let product_id = $(this).data('product-id');
+      let type = $(this).hasClass('plus') ? 'plus' : 'minus';
+      changeQuantityCart(product_id, type);
+  });
+
+  // Initialize cart from localStorage
+  let cart = localStorage.getItem('cart') ? JSON.parse(localStorage.getItem('cart')) : {};
+
+  // Function to update local storage
+  function updateLocalStorage() {
+      localStorage.setItem('cart', JSON.stringify(cart));
+  }
+
+  // Update cart display
+  function updateCart() {
+      let total = 0;
+      let quantityTotal = 0;
+
+      $('#item-list').empty(); // Clear existing items
+
+      for (let item in cart) {
+          if (cart.hasOwnProperty(item)) {
+              let [quantity, name, price, imageUrl] = cart[item];
+              let subtotal = quantity * price;
+              total += subtotal;
+              quantityTotal += quantity;
+              console.log(imageUrl);
+              let itemString = `<tr>
+                  <td>
+                      <div class="item">
+                          <div class="product-info">
+                              <img src="${imageUrl}"/>
+                              <div>
+                                  <input type="hidden" name="item" value="${item}">
+                                  <p>${name}</p>
+                                  <small>${price} dh</small>
+                              </div>
+                          </div>
+                      </div>
+                  </td>
+                  <td>
+                      <div class="quantity">
+                          <span class="minus" data-product-id="${item}">-</span>
+                          <span>${quantity}</span>
+                          <span class="plus" data-product-id="${item}">+</span>
+                      </div>
+                  </td>
+                  <td>
+                      <span class="product">${subtotal} dh</span>
+                  </td>
+              </tr>`;
+              $('#item-list').append(itemString);
+          }
+      }
+
+      $('#subtotal').text(total + ' dh');
+      $('#total').val(total + 'dh');
+      $('#TQTE').text(quantityTotal);
+      document.getElementById("panier").innerHTML = quantityTotal;
+  }
+
+  // Event listener for 'Add to Cart' buttons
+  $(document).on('click', '.ted', function() {
+      console.log('Add to Cart');
+      let item_id = $(this).attr('id');
+      const isAuthenticated = $(this).attr('value'); 
+     
+      if (isAuthenticated == 'True') {
+          console.log(isAuthenticated);
+          document.getElementById("successMessage").style.display = "block"; // Afficher le message
+           setTimeout(function(){
+           document.getElementById("successMessage").style.display = "none"; // Masquer le message après 2 secondes
+           }, 2000);
+          if (cart[item_id] != undefined) {
+              cart[item_id][0]++;
+          } else {
+              console.log($('#img' + item_id).attr('src'));
+              cart[item_id] = [1, $('#aa' + item_id).text(), parseFloat($('#price' + item_id).text()), $('#img' + item_id).attr('src')];
+          }
+          updateCart();
+          updateLocalStorage();
+      } else {
+          alert("Veuillez vous connecter pour acheter ce produit.");
+      }
+  });
+
+  // Update cart display on page load
+  updateCart();
+ 
+});
+
+</script>
+{% endblock %}

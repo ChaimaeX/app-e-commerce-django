@@ -1,0 +1,250 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<style>
+    table thead th{
+            text-align: center;
+         }
+</style>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+            <!-- ======================= Cards ================== -->
+            <div class="cardBox">
+               <div class="card">
+                   <div>
+                       <div class="numbers">{{user_count}}</div>
+                       <div class="cardName">Users</div>
+                   </div>
+
+                   <div class="iconBx">
+                     <i class='bx bx-user'></i>
+                   </div>
+               </div>
+
+               <div class="card">
+                   <div>
+                       <div class="numbers">{{nombre_total_factures}}</div>
+                       <div class="cardName">Sales</div>
+                   </div>
+
+                   <div class="iconBx">
+                       <ion-icon name="cart-outline"></ion-icon>
+                   </div>
+               </div>
+
+               <div class="card">
+                   <div>
+                       <div class="numbers">{{message_count}}</div>
+                       <div class="cardName">Messages</div>
+                   </div>
+
+                   <div class="iconBx">
+                       <ion-icon name="chatbubbles-outline"></ion-icon>
+                   </div>
+               </div>
+
+               <div class="card">
+                   <div>
+                       <div class="numbers">{{somme_montants_mois_demande}}<br>DH</div>
+                       <div class="cardName">En mois</div>
+                   </div>
+
+                   <div class="iconBx">
+                       <ion-icon name="cash-outline"></ion-icon>
+                   </div>
+               </div>
+           </div>
+
+
+   
+            <!-- ================ Order Details List ================= -->
+            <div class="details">
+                <div class="recentOrders">
+                  <div class="cardHeader">
+                     <h2>Recent Orders</h2>
+                     <button id="downloadBtn" class="btn btn-warning" style="float: right;">Télécharger</button>
+                     <form action="{% url 'Facture-All' %}" method="GET">
+                         <div id="dateFields" style="display: none;">
+                             {% csrf_token %}
+                             <input type="date" id="startDate" name="start_date">
+                             <input type="date" id="endDate" name="end_date">
+                             <button type="submit" id="downloadPdfBtn" class="btn btn-success">Télécharger PDF</button>
+                         </div>
+                     </form>
+                     
+                 </div>
+                 
+
+                    <table id="myTable">
+                        <thead>
+                           <tr>
+                              <td>Nom</td>
+                              <td>Date</td>
+                              <td>Total</td>
+                              <td style="text-align: center;">Confirmer</td>
+                              <td style="text-align: center;">Statut</td>
+                          </tr>
+                        </thead>
+
+                        <tbody>
+                            {% if factures%}
+                            {% for facture in factures%}
+                            <tr>
+                                <td>{{ facture.client.username}}</td>
+                                <td>{{ facture.commande_date_time}}</td>
+                                <td>{{ facture.total}}</td>
+                                <td style="text-align: center;">
+                                    {% if facture.confirmer %}
+                                    <img src="{% static 'img/icon-yes.svg' %}" alt="True">
+                                    {% else %}
+                                    <img src="{% static 'img/icon-no.svg' %}" alt="False">
+                                    {% endif %}
+                                 </td>
+                                <td>
+                                        <a href="{% url 'facture' pk=facture.pk  %}" title="Detail" class=" m-30"><span class="status delivered">Voir</span></a>
+                         
+                                        <button id="btn-invoice-sup" type="button" data-toggle="modal" data-target="#supprimer"
+                                           title="Supprimer" data-id="{{ facture.pk }}"
+                                           data-customer="{{facture.client}}"><span class="status pending">Suprimer</span>
+                                        </button>
+                         
+                                        <button id="btn-invoice-mod" type="button" data-toggle="modal" title="Modifier" data-target="#modifier"
+                                           data-id="{{facture.pk}}" data-customer="{{facture.client}}"> <span class="status return">Modifier</span>
+                                        </button>
+                                    
+                                </td>
+                            </tr>
+                          {% endfor %}
+                          {% endif%}
+                            
+                        </tbody>
+                    </table>
+                </div>
+
+<!-- Modal modifier -->
+<div class="modal fade" id="modifier" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+aria-hidden="true">
+<div class="modal-dialog" role="document">
+   <div class="modal-content">
+      <div class="modal-header">
+         <h5 class="modal-title text-dark text-center" id="exampleModalLabel">Modification</h5>
+         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+         </button>
+      </div>
+      <form method="post" action="{% url 'post_dashboard' %}">
+         {% csrf_token %}
+         <div class="modal-body">
+
+            <input name="id_modified" type="hidden" id="id_modified">
+
+            <label id="label_id" class="text-dark checkbox-inline"> <strong id="strong_id"> Cette facture a été payée ?</strong></label>
+
+            <input type="radio" id="html" name="modified" value="True">
+            <label class="text-white bg-primary" for="html">Oui</label>
+
+            <input type="radio" id="css" name="modified" value="False">
+            <label class="text-white bg-danger" for="css">Non</label><br>
+
+         </div>
+         <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary">Save</button>
+         </div>
+      </form>
+   </div>
+</div>
+</div>
+<!-- end modal-->
+<!-- Modal suppression -->
+<div class="modal fade" id="supprimer" tabindex="-1" role="dialog" aria-labelledby="sexampleModalLabel"
+   aria-hidden="true">
+   <div class="modal-dialog" role="document">
+      <div class="modal-content">
+         <div class="modal-header">
+            <h5 class="modal-title text-dark" id="sexampleModalLabel">Supprimer la facture</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+               <span aria-hidden="true">&times;</span>
+            </button>
+         </div>
+         <div class="modal-body">
+            <form method="post" action="{% url 'post_dashboard' %}">
+               {% csrf_token %}
+               <input name="id_supprimer" type="hidden" id="id_supprimer">
+               <label id="label_id_s" class="text-dark checkbox-inline"> <strong id="strong_id_s">Êtes-vous sûr de vouloir supprimer la facture ?</strong></label>
+
+               <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                  <button type="submit" class="btn btn-danger">Supprimer</button>
+               </div>
+            </form>
+         </div>
+
+      </div>
+   </div>
+</div>
+<!-- end modal-->
+ <br><br>
+ <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+
+ <script type="text/javascript">
+
+   // modification
+
+   $(document).on('click', '#btn-invoice-mod', function(){
+      let invoice_id = $(this).data('id');
+      let customer = $(this).data('customer');
+      $('#id_modified').val(invoice_id);
+
+   })
+     
+   // deleting of invoice
+
+   $(document).on('click', '#btn-invoice-sup', function(){
+      let invoice_id = $(this).data('id');
+      let customer = $(this).data('customer');
+      $('#id_supprimer').val(invoice_id);
+      console.log(  $('#id_supprimer').val());
+   })
+</script>
+
+
+
+ <script>
+ console.log('chaimae')
+      $(document).ready(function(){
+      $("#search").on("keyup", function(){
+         var value = $(this).val().toLowerCase();
+         $("#myTable tr").filter(function(){
+            $(this).toggle($(this).text().toLocaleLowerCase().indexOf(value)>-1)
+         });
+      });
+   });
+ </script>
+ <script>
+  
+    document.addEventListener('DOMContentLoaded', function () {
+        const downloadBtn = document.getElementById('downloadBtn');
+        const dateFields = document.getElementById('dateFields');
+        const startDateInput = document.getElementById('startDate');
+        const endDateInput = document.getElementById('endDate');
+        const downloadPdfBtn = document.getElementById('downloadPdfBtn');
+
+        downloadBtn.addEventListener('click', function () {
+            dateFields.style.display = 'block';
+        });
+
+      //   downloadPdfBtn.addEventListener('click', function () {
+      //       const startDate = startDateInput.value;
+      //       const endDate = endDateInput.value;
+      //       // Rediriger vers l'URL de téléchargement avec les dates de début et de fin
+      //       window.location.href = /telecharger-pdf/?start_date=${startDate}&end_date=${endDate};
+      //   });
+    });
+
+
+ </script>
+{% endblock content %}

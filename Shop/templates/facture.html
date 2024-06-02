@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+{% load static%}
+<br><br><br>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <!-- ======= Styles ====== -->
+    <style>
+        .table thead  th{
+        background-color: #1795ce;
+        }
+        .card{
+            border-color: #fff;
+        }
+        .custom-table > tbody tr:hover {
+         background: #d8e9c5;
+         }
+
+        .custom-table > tbody td {
+          border: 1px solid #2e3d5f;
+        }
+        .table {
+         /* background: #1a243a;
+         color: #bcd0f7; */
+         font-size: .75rem;
+          
+         }
+        
+.invoice-status {
+    text-align: center;
+    padding: 1rem;
+    background: #272e48;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+}
+.invoice-status h2.status {
+    margin: 0 0 0.8rem 0;
+}
+.invoice-status h5.status-title {
+    margin: 0 0 0.8rem 0;
+    color: #8a99b5;
+}
+.invoice-status p.status-type {
+    margin: 0.5rem 0 0 0;
+    padding: 0;
+    line-height: 150%;
+}
+.invoice-status i {
+    font-size: 1.5rem;
+    margin: 0 0 1rem 0;
+    display: inline-block;
+    padding: 1rem;
+    background: #1a233a;
+    -webkit-border-radius: 50px;
+    -moz-border-radius: 50px;
+    border-radius: 50px;
+}
+.invoice-status .badge {
+    text-transform: uppercase;
+}
+
+.custom-actions-btns {
+    margin: auto;
+    display: flex;
+    justify-content: flex-end;
+}
+.custom-actions-btns .btn {
+    margin: .3rem 0 .3rem .3rem;
+}
+    </style>
+    <!-- bootstrap -->
+  
+   <title>Facture</title>
+    
+    <!-- =============== Navigation ================ -->
+
+<!-- header partie -->
+<div class="container">
+    <div class="row gutters">
+    	<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+    		<div class="card">
+    			<div class="card-body p-0">
+    				<div class="invoice-container">
+    					<div class="invoice-header">
+    
+    						<!-- Row start -->
+    						<div class="row gutters">
+    							<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+    								<div class="custom-actions-btns mb-5">
+    									<a href="{% url 'facture-pdf' pk=obj.pk %}" class="btn btn-primary" style="margin-right: 30px;">
+    										 Telecharger <i  class='bx bxs-download' style="font-size: 1rem;margin: 5px;"></i>
+    									</a>
+    									
+    								</div>
+    							</div>
+    						</div>
+    						<!-- Row end -->
+    
+    						
+    
+    					        <!-- Row start -->
+                                <!-- <div class="row gutters">
+                                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                                        <a href="/" class="invoice-logo text-center">
+                                           Indoka
+                                        </a>
+                                    </div>
+                                    
+                                </div> -->
+                                <div class="row gutters">
+                                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12" >
+                                            <div class="logo" style=" margin-bottom: 10px;">
+                                            <img src="{% static 'img/logo Indoka.png'%}" alt="" style="width: 136px; height: 50px; ">
+                                            <div style="color: #4a69a5; font-family: serif;margin-left: 10px;   font-size: 20px;">
+                                              Les laboratoires de Indoka La Colombe</div>
+
+                                        </div>
+                                    </div>
+                                    
+                               
+                                <!-- Row end -->
+        
+                               
+                                <!-- Row start -->
+                                <div class="row gutters">
+                                    <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12 col-12">
+                                        <div class="invoice-details">
+                                            <address style="margin-left: 15px;">
+                                              <span style="font-size: medium;">Client: </span> {{obj.client.username}}<br>
+                                              Telephone: {{obj.telephone}}<br>
+                                              Address: {{obj.Adresse}}<br>
+                                              ville: {{obj.ville}}<br>
+                                             
+                                            </address>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 col-12">
+                                        <div class="invoice-details">
+                                            <div class="invoice-num">
+                                                <div>F N°: #00{{obj.id}}</div>
+                                                <div>Meknes Le:  {{obj.commande_date_time}}</div>
+                                                <!-- <div>Boufekrane le:{{obj.facture_date_time}}</div> -->
+                                            </div>
+                                        </div>													
+                                    </div>
+                                </div>
+                                <!-- Row end -->
+                    </div>
+
+                    <div class="invoice-body">
+
+                        <!-- Row start -->
+                        <div class="row gutters container">
+                            <div class="col-lg-12 col-md-12 col-sm-12">
+                                <div class="table-responsive">
+                                    <table class="table custom-table m-0">
+                                        <thead>
+                                            <tr>
+                                                
+                                                <th>Produit ID</th>
+                                                <th>Designation</th>
+                                                <th>Quantities</th>
+                                                <th>Prix</th>
+                                                <th>Total</th>
+                                               
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                          {% for article in articles %}  
+                                          
+                                            <tr>
+
+                                               
+
+                                                <td>
+                                                    {{  article.produit.id }}
+                                                    
+                                                </td>
+
+                                                <td>
+                                                    {{ article.produit.name}}
+                                                    
+                                                </td>
+
+                                                <td>
+                                                    {{ article.quantity_achat}}
+                                                    
+                                                </td>
+
+                                                <td>
+                                                    {{ article.prix_achat }}
+                                                    
+                                                </td>
+
+                                                <td>
+                                                    {{ article.total_a }}
+                                                    
+                                                </td>
+
+                                                
+                                                
+                                            </tr>
+                                           {% endfor %} 
+                                            
+                                          
+                                            <tr>
+                                                <td colspan="2"></td>
+
+                                                <td colspan="2">
+                                                       <h5 class="text-success"><strong>Montant globale <br> </strong></h5>
+                                                    </td>			
+                                                    <td>
+                                                       
+                                                         <h5 class="text-success"><strong>{{ obj.total }} DH<br> </strong></h5>
+                                                                                     
+                                              
+                                                    
+                                                   </td>
+                                                   </tr>
+                                                   <br><br><br><br>
+                                                   
+                                                    
+                                                  
+                                               
+                                            
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Row end -->
+
+    
+    					</div>
+    
+    					
+    				</div>
+    			</div>
+    		</div>
+    	</div>
+    </div>
+</div>
+<footer>
+    <br><br><br>
+</footer>
+
+<!-- =========== Scripts =========  -->
+
+
+<!-- ====== ionicons ======= -->
+<script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+
+{% endblock content %}

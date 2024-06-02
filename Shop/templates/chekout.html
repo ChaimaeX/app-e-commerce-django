@@ -1,0 +1,489 @@
+{% extends "index.html" %}
+{% load static %}
+{% block content %}
+<br>
+<style>
+ .quantite{
+    text-align: center;
+    
+  }
+  .quantite span{
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  background-color: #eee;
+  border-radius: 50%;
+  color: #555;
+  cursor: pointer;
+  /* display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap; */
+  margin: 2PX;
+  font-weight: bold;
+  text-align: center;
+  
+}
+
+.quantity span:nth-child(2){
+  background-color: transparent;
+  color: #a6a4a4;
+  cursor: auto;
+}
+ /* 
+#item-list tr:nth-child(even){
+  background-color: rgba(158, 150, 150, 0.067);
+} */
+
+/* /shop.hmtl/ */
+
+#page-header {
+  width: 100%;
+  height: 50vh;
+  background-size: cover;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  flex-direction: column;
+  padding: 14px;
+}
+.cart-header {
+  background-image: url("../static/img/cart.jpg");
+}
+
+.cart-header h2 {
+  color: #000000;
+  font-size: 46px;
+  line-height: 54px;
+  font-weight: bold;
+}
+#cart {
+  overflow-x: auto;
+}
+.section-p1 {
+  padding: 40px 80px;
+}
+#cart table {
+    border-collapse: collapse;
+  white-space: nowrap;
+}
+
+#cart table td:nth-child(1) {
+    width: 100px;
+    text-align: center;
+}
+
+#cart table td:nth-child(2) {
+    width: 150px;
+    text-align: center;
+}
+
+#cart table td:nth-child(3) {
+    width: 250px;
+    text-align: center;
+}
+
+#cart table td:nth-child(4),
+#cart table td:nth-child(5),
+#cart table td:nth-child(6) {
+    width: 150px;
+    text-align: center;
+}
+
+#cart table td:nth-child(5) input {
+    width: 70px;
+    padding: 10px 5px 10px 15px;
+}
+
+#cart table thead {
+    border: 1px solid #e3e6f3;
+    border-left: none;
+    border-right: none;
+}
+
+#cart table thead td {
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 13px;
+    padding: 18px 0;
+}
+
+#cart table tbody tr td {
+    padding-top: 15px;
+}
+
+#cart table tbody td {
+    font-size: 13px;
+}
+
+#cart-add {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+
+
+
+#coupon {
+  width: 50%;
+  margin-bottom: 30px;
+}
+#coupon input {
+  width: 60%;
+  outline: none;
+  margin-right: 10px;
+  border: 1px solid #999d98;
+  padding: 10px 20px;
+}
+#coupon button , #subtotal button{
+  background-color: #088178;
+  color: white;
+  padding: 12px 20px;
+}
+#subtotal {
+  width: 50%;
+  margin-bottom: 30px;
+  border: 1px solid #e2e9e1;
+  padding: 30px;
+}
+#subtotal table {
+  border-collapse: collapse;
+  width: 100%;
+  margin-bottom: 20px;
+}
+#coupon {
+  width: 50%;
+  margin-bottom: 30px;
+}
+
+#coupon h3{
+  padding-bottom: 15px;
+
+}
+#subtotal h3 {
+  padding-bottom: 15px;
+  font-weight: bold;
+  text-align: left;
+}
+button.normal {
+  font-size: 14px;
+  font-weight: 600;
+  padding: 15px 30px;
+  color: black;
+  background-color: white;
+  border-radius: 4px;
+  cursor: pointer;
+  border: none;
+  outline: none;
+  transition: 0.2s;
+}
+#cart table img {
+  width: 70px;
+}
+#cart table td:nth-child(5) input {
+  width: 70px;
+  padding: 10px 5px 10px 15px;
+}
+.cart-header p {
+  color: #ffffff;
+}
+p {
+  font-size: 16px;
+  color: #465b52;
+  margin: 15px 0 20px 0;
+}
+#subtotal h3 {
+  padding-bottom: 15px;
+}
+#subtotal table {
+  border-collapse: collapse;
+  width: 100%;
+  margin-bottom: 20px;
+}
+#subtotal table td {
+  width: 50%;
+  border: 1px solid #a69f9f;
+  padding: 10px;
+  font-size: 13px;
+}
+#subtotal button {
+  background-color: #0189ff;
+  color: white;
+  padding: 12px 20px;
+}
+tbody, td, tfoot, th, thead, tr {
+  border-color: inherit;
+  border-style: solid;
+  border-width: 0;
+}
+.delete{
+    cursor: pointer;
+}
+#subtotal h3 {
+  padding-bottom: 15px;
+}
+#successMessage {
+       
+       display: none; /* Masquer le message au début */
+       justify-content: center;
+       position: fixed; /* Position fixe */
+       top: 20%; /* Position verticale au milieu */
+       left: 50%; /* Position horizontale au milieu */
+       transform: translate(-50%);
+       width: 400px;
+       height: 30px;
+       text-align: center;
+       align-items: center;
+       background-color: rgb(254, 204, 139);
+       border-radius: 20px;
+       box-shadow: 0 2px 2px rgb(230, 200, 160);
+       /* filter: blur(1px);  */
+       /*Ajouter un flou */
+       transition: filter 0.5s ease; /* Transition pour le flou */
+        /* Transition douce pour l'opacité */
+}
+#erreurMessage{
+
+display: none; /* Masquer le message au début */
+justify-content: center;
+position: fixed; /* Position fixe */
+top: 20%;
+left: 50%; /* Position horizontale au milieu */
+transform: translate(-50%);
+width: 200px;
+height: 30px;
+color: #fff;
+text-align: center;
+align-items: center;
+background-color: rgb(50, 50, 45);
+border-radius: 20px;
+box-shadow: 0 2px 2px rgb(37, 30, 21);
+/* filter: blur(1px);  */
+/*Ajouter un flou */
+transition: filter 0.5s ease; /* Transition pour le flou */
+ /* Transition douce pour l'opacité */
+
+}
+</style>
+
+<section id="page-header" class="cart-header">
+    <h2 clas="cart-h2">#panier</h2>
+    <p class="cart-p">Explorez notre sélection de produits exceptionnels et complétez votre panier avec style !</p>
+</section>
+
+<div class="row">
+    <div class="col-md-12">
+        <section id="cart" class="section-p1">
+            <table width="100%">
+                <thead>
+                    <tr>
+                        <td>SUPPRIMER</td>
+                        <td>IMAGE</td>
+                        <td>PRODUIT</td>
+                        <td>PRIX</td>
+                        <td>QUANTITÉ</td>
+                        <td>SOUS-TOTAL</td>
+                    </tr>
+                </thead>
+                
+                <tbody id="item-list">
+                    
+                    <!-- Les lignes de produits seront ajoutées ici dynamiquement -->
+                </tbody>
+            </form>
+            </table>
+        </section>
+    
+        <section id="cart-add" class="section-p1">
+            <div id="coupon">
+                <!-- Zone de coupon -->
+            </div>
+            <div id="subtotal">
+                <h3>Total du panier</h3>
+                <table>
+                    <tr>
+                        <td>Quantité de produits</td>
+                        <td id="TQTE"></td>
+                    </tr>
+                    <tr>
+                        <form method="post">
+                            {% csrf_token %}
+                        <td><strong>Total</strong></td>
+                        <input required name="total" type="hidden" id="total" >
+                        <input required name="product" type="hidden"id="product">
+                        <input required name="qte" type="hidden" id="qte">
+                        <td ><strong id="totals"></strong></td>
+                    </tr>
+                </table>
+                <!-- Formulaire de s oumission -->
+                {% if is_authenticated %}
+                <button type="submit" class="normal" value="{{ is_authenticated }}">Aller à la caisse</button>
+                {% else %}
+                <button type="button" class="btn btn-primary normal ted" style="padding: 12px 20px;">Aller à la caisse</button>
+                {% endif %}
+            </form>
+            </div>
+            <div id="successMessage" >Ajouté au panier!</div>
+            <div id="erreurMessage" >please login</div>
+        </section>
+    </div>
+</div>
+    
+    
+{% endblock %}
+{% block js %}
+ <script>
+    
+    var is_authenticated = "{{ is_authenticated }}" === "True";
+    $(document).on('click', '.ted', function() {
+    console.log(is_authenticated);
+    if (!is_authenticated) {
+        document.getElementById("erreurMessage").style.display = "block";
+        setTimeout(function(){
+            document.getElementById("erreurMessage").style.display = "none";
+        }, 2000);
+    }
+});   
+</script>
+
+
+ </script>
+
+    <script type="text/javascript">
+      
+      $(document).ready(function() {
+    // Function to update cart item quantity
+    function changeQuantityCart(product_id, type) {
+        if (cart.hasOwnProperty(product_id)) {
+            switch (type) {
+                case 'plus':
+                    cart[product_id][0]++;
+                    break;
+                case 'minus':
+                    if (cart[product_id][0] > 1) {
+                        cart[product_id][0]--;
+                    } else {
+                        delete cart[product_id];
+                    }
+                    break;
+            }
+            updateCart();
+            updateLocalStorage();
+        }
+    }
+
+    // Function to update cart display
+    let product_id=[]
+    let qte=[]
+    function updateCart() {
+        let total = 0;
+        let quantityTotal = 0;
+
+        $('#item-list').empty(); // Clear existing items
+        
+        for (let item in cart) {
+            if (cart.hasOwnProperty(item)) {
+                
+                product_id.push(item)
+                
+                let [quantity, name, price, imageUrl] = cart[item];
+                let subtotal = quantity * price;
+                total += subtotal;
+                quantityTotal += quantity;
+                qte.push(quantity)
+                let itemString = `<tr>
+
+                        <input required name="product" type="hidden" value="${item}">
+                        <input required name="product" type="hidden" value="${quantity}">
+                        
+                        <td class="delete" data-product-id="${item}"><a href="#"><i class="fas fa-trash"></i></a></td>
+                        <td style="text-align: center;"><a href="#"><img src="${imageUrl}"></a></td>
+                        <td>${name}</td>
+                        <td>${price} DH</td>
+                        <td class="quantite">
+                            
+                            <span class="minus" data-product-id="${item}" >-</span>
+                            <span style="color:#000;">${quantity}</span>
+                            <span class="plus" data-product-id="${item}">+</span>
+                            
+                        </td>
+                             
+                    <td style=" text-align: center;">
+                        <span class="product">${subtotal} dh</span>
+                    </td>
+                    
+                </tr>`;
+                $('#item-list').append(itemString);
+                $('#product').val(product_id)
+                $('#qte').val(qte)
+
+               
+
+            }
+        }
+
+        // $('#subtotal').text(total + ' dh');
+        console.log(total)
+        $('#totals').text(total + ' dh');
+        $('#total').val(total + ' dh');
+        $('#TQTE').text(quantityTotal);
+        document.getElementById("panier").innerHTML = quantityTotal;
+    }
+
+    // Event listener for plus and minus buttons
+    $('#item-list').on('click', '.minus, .plus', function() {
+        let product_id = $(this).data('product-id');
+        let type = $(this).hasClass('plus') ? 'plus' : 'minus';
+        changeQuantityCart(product_id, type);
+    });
+
+    $('#item-list').on('click', '.delete', function() {
+    let productId = $(this).data('product-id');
+    delete cart[productId];
+    updateCart(); // Assurez-vous de mettre à jour l'affichage après la suppression
+    updateLocalStorage();
+    });
+    // Initialize cart from localStorage
+    let cart = localStorage.getItem('cart') ? JSON.parse(localStorage.getItem('cart')) : {};
+
+    // Update cart display
+    updateCart();
+
+    // Function to update local storage
+    function updateLocalStorage() {
+        localStorage.setItem('cart', JSON.stringify(cart));
+    }
+});
+function affichageErreur() {
+    
+    const targetNotification = document.querySelector('.notification');
+      
+            //  targetNotification.style.display = "block"; // Afficher le message
+            //  setTimeout(function(){
+            //  targetNotification.style.display = "none"; // Masquer le message après 2 secondes
+            //  }, 5000);
+        
+
+        targetNotification.classList.toggle('showed');
+        // Set auto close for 5 seconds
+        setTimeout(function() {
+            targetNotification.classList.remove('showed');
+        }, 5000);
+        const closes = document.querySelectorAll('.close');
+ 
+        closes.forEach(function(el) {
+        el.addEventListener('click', function() {
+        const parentNotification = el.parentNode;
+        if (parentNotification.classList.contains('showed')) {
+            parentNotification.classList.remove('showed');
+        }
+    });
+});
+
+ // Event listener for 'Add to Cart' buttons
+
+
+}
+</script>
+{% endblock js %}

@@ -1,0 +1,406 @@
+{% extends "index.html" %}
+{% load static %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/style.css'%}">
+<link rel="stylesheet" href="{% static 'css/style3.css'%}">
+<!--single product-->
+<style>
+:root {
+    --success-color: #20bf6b;
+    --error-color: #eb3b5a;
+    --warning-color: #fed330;
+    --white-color: white;
+}
+
+
+
+.site {
+    display: grid;
+    place-content: center;
+    height: 100vh;
+}
+
+.trigger {
+    display: flex;
+    gap: 2em;
+}
+
+.trigger a {
+    padding: 0 20px;
+    color: inherit;
+    background-color: var(--white-color);
+    display: flex;
+    align-items: center;
+    line-height: 40px;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.notification {
+    position: absolute;
+    width: 350px;
+    height: auto;
+    background-color: var(--white-color);
+    border-radius: 7px;
+    top: 50%;
+    right: 0;
+    transform: translate3d(100%, 0, 0);
+    transition: transform .3s;
+    transition-timing-function: cubic-bezier(.46, .91, .9, 1.1);
+}
+
+.notification.showed {
+    transform: translate3d(-7%, 0, 0);
+}
+
+.notification .head {
+    color: var(--white-color);
+    padding: 20px;
+    text-align: center;
+    font-size: 1.2em;
+    border-radius: 7px 7px 0 0;
+}
+
+.notification.success .head {
+    background-color: var(--success-color);
+}
+
+.notification.error .head {
+    background-color: var(--error-color);
+}
+
+.notification.warning .head {
+    background-color: var(--warning-color);
+}
+
+.notification .section {
+    text-align: center;
+    padding: 30px 20px;
+}
+
+.notification .section .highlight {
+    color: var(--white-color);
+    max-width: 130px;
+    margin: 30px auto 0;
+    border-radius: 5px;
+    padding: 7px 0;
+}
+
+.notification.success .section .highlight {
+    background-color: var(--success-color);
+}
+
+.notification.error .section .highlight {
+    background-color: var(--error-color);
+}
+
+.notification.warning .section .highlight {
+    background-color: var(--warning-color);
+}
+
+.notification .close {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    top: -14px;
+    right: -14px;
+    border-radius: 50%;
+    cursor: pointer;
+    background-color: var(--white-color);
+    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAKhJREFUOE+tkzEOgzAMRR9r79KZpUhcoFMlJK5YlQG6V6zMvQsDLJUlIpkkDgiaMcl/+fm2M06ubNFfgQsw7OTlwAh8HUA23kAF9BuQEngCd3nQAURzAxqgBj4GpABe+o4GbEECsQh8gAWJii2AD5l92/p7MQfuXDLpFpcPK5cUQGy3RwH6z1OqOjEHscDMEvsAM22rTzQgJdbBrprtb618eph2DmF47QeegDIR3TroEQAAAABJRU5ErkJggg==);
+    background-position: center;
+    background-repeat: no-repeat;
+}
+#successMessage {
+       
+       display: none; /* Masquer le message au début */
+       justify-content: center;
+       position: fixed; /* Position fixe */
+       top: 20%; /* Position verticale au milieu */
+       left: 50%; /* Position horizontale au milieu */
+       transform: translate(-50%);
+       width: 400px;
+       height: 30px;
+       text-align: center;
+       align-items: center;
+       background-color: rgb(254, 204, 139);
+       border-radius: 20px;
+       box-shadow: 0 2px 2px rgb(230, 200, 160);
+       /* filter: blur(1px);  */
+       /*Ajouter un flou */
+       transition: filter 0.5s ease; /* Transition pour le flou */
+        /* Transition douce pour l'opacité */
+}
+#erreurMessage{
+
+       display: none; /* Masquer le message au début */
+       justify-content: center;
+       position: fixed; /* Position fixe */
+       top: 20%;
+       left: 50%; /* Position horizontale au milieu */
+       transform: translate(-50%);
+       width: 200px;
+       height: 30px;
+       color: #fff;
+       text-align: center;
+       align-items: center;
+       background-color: rgb(50, 50, 45);
+       border-radius: 20px;
+       box-shadow: 0 2px 2px rgb(37, 30, 21);
+       /* filter: blur(1px);  */
+       /*Ajouter un flou */
+       transition: filter 0.5s ease; /* Transition pour le flou */
+        /* Transition douce pour l'opacité */
+
+}
+
+.navbar .container{
+    max-width: none;
+}
+
+
+
+
+</style>
+
+<section class="container single-product my-5 pt-5">
+    <div class="row mt-5">
+        <div class="col-lg-5 col-md-6 col-sm-12" style="position: relative; ">
+            {% if product.TauxRemise != 0 %}
+            <span class="badge" aria-label="20% off"  style=" right: 80px;" >-{{product.TauxRemise}}%</span>
+          {% endif %}
+
+            <img  class="img-fluid  pb-1"style="max-width: 50%; margin-left: 82px;"  src="{{ product.image.url }}" />
+           
+        </div>
+        <div class="col-lg-6 col-md-12 col-12">
+          <h6>men/Shoes</h6>
+          <div class="pro">
+           
+          <h3 class="py-4" id="aa{{ product.id }}"> {{ product.name }} </h3>
+          <!-- <h2 style="color: orange;" id="price{{ product.id }}"> {{ product.price }}dh</h2> -->
+          <div class="price" style="margin-bottom: 20px;">
+            {% if produit.TauxRemise != 0 %}
+            <del class="del" >{{ product.price}} DH</del>
+            <span class="span"style="color: orange;" id="price{{ produit.id }}">{{ product.new_price }} DH</span>
+            {% else %}
+            <del class="del"></del>
+            <span class="span" style="color: orange;" id="price{{ produit.id }}">{{ product.price }} DH</span>
+            {% endif%}
+          </div>
+          <button class="buy-btn ted" id="{{ product.id }}" value="{{ isAutentifiend }}">Add to Cart</button>
+          <h4 class="mt-5 mb-5">Product Details</h4>
+          <span>
+            {{ product.descreption }}
+            
+          </span>
+      </div>
+      
+</section>
+
+<!--realated product-->
+    <div class="container text-center mt-5 py-3" >
+      <h3> Related Product</h3>
+      <hr class="mx-auto">
+      <p>Here you can check out our future</p>
+    </div>
+    <section id="product1" class="section-p1 " >
+        <div class=" pro-container mt-5 py-3" style="display: flex;">
+      {% if produits%}
+      {% for produit in produits %}
+    
+      <div class="pro col-lg-3 col-md-6 col-sm-12 col-12"  style="position: relative;">
+        <a href="{% url 'detail' pk=produit.pk %}"><img src="{{ produit.image.url }}" alt="" id="img{{produit.id}}" style="text-align: center; height: 189px;"></a>
+        {% if produit.TauxRemise != 0 %}
+          <span class="badge" aria-label="20% off" >-{{produit.TauxRemise}}%</span>
+        {% endif %}
+          <div class="des">
+              <!-- <span>H&M</span> -->
+              <h5  id="aa{{ produit.id }}">{{ produit.name }} DH</h5>
+              <div class="star">
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+              </div>
+              <div class="price">
+                {% if produit.TauxRemise != 0 %}
+                <del class="del" >{{ produit.price}} DH</del>
+                <span class="span" id="price{{ produit.id }}">{{ produit.new_price }} DH</span>
+                {% else %}
+                <span class="span" id="price{{ produit.id }}">{{ produit.price }} DH</span>
+                {% endif%}
+              </div>
+          </div>
+          <div id="{{ produit.id }}" class="ted" value="{{ isAutentifiend }}">
+              <i class="fas fa-shopping-cart cart"></i>
+          </div>
+      </div>
+      {% endfor %}
+      {% endif %}
+      <div id="successMessage" >Ajouté au panier!</div>
+      <div id="erreurMessage" >please login</div>
+      <!-- <div class="notification warning">
+        <div class="head">
+           <p><strong>This is a warning!</strong></p>
+        </div>
+        <div class="section">
+            <p>You should create an account<br>could not proceed</p>  
+         <a href="{% url 'Login' %}" class="highlight">Login</a>
+        </div>
+        <div class="close"></div>
+    </div> -->
+
+    </div>
+  </section>
+{% endblock content %}
+{% block js %}
+<script>
+    
+    $(document).ready(function() {
+    // Function to update cart item quantity
+    function changeQuantityCart(product_id, type) {
+        if (cart.hasOwnProperty(product_id)) {
+            switch (type) {
+                case 'plus':
+                    cart[product_id][0]++;
+                    break;
+                case 'minus':
+                    if (cart[product_id][0] > 1) {
+                        cart[product_id][0]--;
+                    } else {
+                        delete cart[product_id];
+                    }
+                    break;
+            }
+            updateCart();
+            updateLocalStorage();
+            
+        }
+    }
+
+    // Event listener for plus and minus buttons
+    $('.quantity').on('click', '.minus, .plus', function() {
+        let product_id = $(this).data('product-id');
+        let type = $(this).hasClass('plus') ? 'plus' : 'minus';
+        changeQuantityCart(product_id, type);
+    });
+
+    // Initialize cart from localStorage
+    let cart = localStorage.getItem('cart') ? JSON.parse(localStorage.getItem('cart')) : {};
+
+    // Function to update local storage
+    function updateLocalStorage() {
+        localStorage.setItem('cart', JSON.stringify(cart));
+    }
+
+    // Update cart display
+    function updateCart() {
+        let total = 0;
+        let quantityTotal = 0;
+
+        $('#item-list').empty(); // Clear existing items
+
+        for (let item in cart) {
+            if (cart.hasOwnProperty(item)) {
+                let [quantity, name, price, imageUrl] = cart[item];
+                let subtotal = quantity * price;
+                total += subtotal;
+                quantityTotal += quantity;
+                console.log(imageUrl);
+                let itemString = `<tr>
+                    <td>
+                        <div class="item">
+                            <div class="product-info">
+                                <img src="${imageUrl}"/>
+                                <div>
+                                    <input type="hidden" name="item" value="${item}">
+                                    <p>${name}</p>
+                                    <small>${price} dh</small>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="quantity">
+                            <span class="minus" data-product-id="${item}">-</span>
+                            <span>${quantity}</span>
+                            <span class="plus" data-product-id="${item}">+</span>
+                        </div>
+                    </td>
+                    <td>
+                        <span class="product">${subtotal} dh</span>
+                    </td>
+                </tr>`;
+                $('#item-list').append(itemString);
+            }
+        }
+
+        $('#subtotal').text(total + ' dh');
+        $('#total').val(total + ' dh');
+        $('#TQTE').text(quantityTotal);
+        document.getElementById("panier").innerHTML = quantityTotal;
+    }
+
+    // Event listener for 'Add to Cart' buttons
+    $(document).on('click', '.ted', function(e1) {
+        console.log('Add to Cart');
+        let item_id = $(this).attr('id');
+        const isAuthenticated = $(this).val();
+       
+        if (isAuthenticated == 'True') {
+            console.log(isAuthenticated == 'True');
+            document.getElementById("successMessage").style.display = "block"; // Afficher le message
+             setTimeout(function(){
+             document.getElementById("successMessage").style.display = "none"; // Masquer le message après 2 secondes
+             }, 2000);
+            if (cart[item_id] != undefined) {
+                cart[item_id][0]++;
+            } else {
+                console.log($('#img' + item_id).attr('src'));
+                cart[item_id] = [1, $('#aa' + item_id).text(), parseFloat($('#price' + item_id).text()), $('#img' + item_id).attr('src')];
+            }
+            updateCart();
+            updateLocalStorage();
+        } else {
+            document.getElementById("erreurMessage").style.display = "block"; // Afficher le message
+             setTimeout(function(){
+             document.getElementById("erreurMessage").style.display = "none"; // Masquer le message après 2 secondes
+             }, 2000);
+            
+            
+        }
+    });
+
+    // Update cart display on page load
+    updateCart();
+});
+function affichageErreur() {
+    
+    const targetNotification = document.querySelector('.notification');
+      
+            //  targetNotification.style.display = "block"; // Afficher le message
+            //  setTimeout(function(){
+            //  targetNotification.style.display = "none"; // Masquer le message après 2 secondes
+            //  }, 5000);
+        
+   
+        document.getElementById("notification").style.display = "block"; // Afficher le message
+        setTimeout(function(){
+        document.getElementById("notification").style.display = "none"; // Masquer le message après 2 secondes
+         }, 2000);
+        //  
+        closes.forEach(function(el) {
+        el.addEventListener('click', function() {
+        const parentNotification = el.parentNode;
+        if (parentNotification.classList.contains('showed')) {
+            parentNotification.classList.remove('showed');
+        }
+    });
+});
+
+}
+
+</script>
+{% endblock %}
